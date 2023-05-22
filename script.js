@@ -87,16 +87,38 @@ function drawSnake() {
 
 window.addEventListener("keydown", (e) => {
     if ((e.key === "ArrowUp" || e.key === "w") && direction !== "d") {
+        if (direction === "u") {
+            isRecentlyClicked = false;
+        } else {
+            moveSnake();
+            isRecentlyClicked = true;
+        }
         direction = "u";
     } else if ((e.key === "ArrowDown" || e.key === "s") && direction !== "u") {
+        if (direction === "d") {
+            isRecentlyClicked = false;
+        } else {
+            moveSnake();
+            isRecentlyClicked = true;
+        }
         direction = "d";
     } else if ((e.key === "ArrowRight" || e.key === "d") && direction !== "l") {
+        if (direction === "r") {
+            isRecentlyClicked = false;
+        } else {
+            moveSnake();
+            isRecentlyClicked = true;
+        }
         direction = "r";
     } else if ((e.key === "ArrowLeft" || e.key === "a") && direction !== "r") {
+        if (direction === "l") {
+            isRecentlyClicked = false;
+        } else {
+            moveSnake();
+            isRecentlyClicked = true;
+        }
         direction = "l";
     }
-    moveSnake();
-    isRecentlyClicked = true;
 })
 
 
