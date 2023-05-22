@@ -8,6 +8,7 @@ let fps = prompt("Enter fps which you want to play with (Minimum: 10): ", "10");
 if (fps < 10) fps = 10;
 fps = Number(fps);
 
+
 let isGodToggled = confirm("God mode. OK for enable. Cancel for disable")
 let direction = "r";
 let snakeBody = [
@@ -16,25 +17,28 @@ let snakeBody = [
 
 let gameOver = false;
 let food = new Food(snakeBody);
-
+let isRecentlyClicked = false;
 
 function main() {
-    checkLose();
     if (!isGodToggled) if (gameOver) {
         alert("You lose!")
         const isContinue = confirm("Do you want to restart? OK = Yes, Cancel = No");
         if (isContinue) location.reload();
         return;
     };
-    clearCanvas();
-    moveSnake();
-    drawSnake();
-    spawnFood();
-    if (checkIsSnakeOnFood()) {
-        snakeBodyIncrement();
-        food = new Food(snakeBody);
-    }
     setTimeout(() => {
+        checkLose();
+        clearCanvas();
+        if (!isRecentlyClicked) {
+            moveSnake();
+        }
+        isRecentlyClicked = false;
+        drawSnake();
+        spawnFood();
+        if (checkIsSnakeOnFood()) {
+            snakeBodyIncrement();
+            food = new Food(snakeBody);
+        }
         window.requestAnimationFrame(main);
     }, 1000/fps)
 }
@@ -72,7 +76,6 @@ function moveHead() {
             snakeBody[0].y += 1;
             break;
     }
-    console.log("head moved")
 }
 
 function drawSnake() {
@@ -92,6 +95,8 @@ window.addEventListener("keydown", (e) => {
     } else if ((e.key === "ArrowLeft" || e.key === "a") && direction !== "r") {
         direction = "l";
     }
+    moveSnake();
+    isRecentlyClicked = true;
 })
 
 
